@@ -71,7 +71,25 @@ tools.module = (function(){
             findIndex = toolBox.narzedzia.indexOf(toolName);
             if (toolBox.stanNarzedzia[findIndex]>0) {toolBox.stanNarzedzia[findIndex]--};
         },
-    };s
+
+        // Dodanie narzędzia do listy
+        addTool: function(toolName,toolType) {
+            findNarzedzie = toolBox.narzedzia.indexOf(toolName);
+            if (findNarzedzie<0) {
+                findTyp = toolBox.typ.indexOf(toolType);
+                if (findTyp!=-1) {
+                    toolBox.narzedzia.push(toolName);
+                    toolBox.typNarzedzia.push(findTyp);
+                    toolBox.stanNarzedzia.push(0);
+                    console.log('\nDodano narzędzie do listy.');
+                } else {
+                    console.log('\nPodano niewłaściwy typ narzędzia.');             
+                }  
+            } else {
+                console.log('\nNarzędzie istnieje już w bazie.');                          
+            }        
+        },
+    };
     return myInterface;
 })();
 
@@ -83,4 +101,10 @@ tools.module.buyTool('Miara');
 tools.module.getToolStock('Miara');
 tools.module.sellTool('Miara');
 tools.module.getToolStock('Miara');
+
+tools.module.addTool('Ekierka','Pomiarowe');
+tools.module.getToolsTypes();
+tools.module.addTool('Ekierka','Pomiarowe');
+tools.module.getToolsTypes();
+
 
