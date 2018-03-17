@@ -205,7 +205,7 @@ var jan = new Person('Jan'); // wiązanie do obiektu
 console.log(jan.name);
 //console.log(maria.name);
 
-// 3. Metoda
+// 3. Metoda - wiązanie do obiektu
 var person = {
     imie: "Nieznane",
     sayHello: function(){
@@ -214,7 +214,7 @@ var person = {
 }
 console.log(person.sayHello());
 
-// 4. Apply
+// 4. Apply - wiązanie do przekazanego obiektu
 function dajGlos(zwierze){
     return console.log("Jestem "+zwierze+" bo mówię: "+ this.message);
 }
@@ -244,3 +244,20 @@ console.log(evenNumbers);
 // wybrać co chcemy zwracać, według jakiej właściwości
 // JavaScript uczymy się z: https://developer.mozilla.org/pl/docs/Web/JavaScript
 
+// poprawić pod lintera
+// ciekawe metody
+// filter, map, 
+
+// Przykład bazy
+var typy = {
+    BUDOWLANE: 0,
+    ELEKTRYCZNE: 1,
+    MECHANICZNE: 2
+}
+
+var narzedzia = [ 
+    { nazwa: "Młotek", typ: [typy.BUDOWLANE,typy.MECHANICZNE]}, 
+    { nazwa: "Wiertarka", typ: [typy.BUDOWLANE,typy.ELEKTRYCZNE]}, 
+    { nazwa: "Młotek", typ: [typy.ELEKTRYCZNE]}
+]
+// Koniec przykładu 
