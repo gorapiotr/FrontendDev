@@ -1,18 +1,18 @@
 
 var tools = {};
 
-tools.module = (function(){
+tools.module = (function() {
     var typy = {
         PROSTE: 0,
         ELEKTRYCZNE: 1,
         PNEUMATYCZNE: 2,
         POMIAROWE: 3,
         POMOCNICZE: 4
-    }
+    };
 
-    var narzedzia = [ 
-        { nazwa: "Młotek", typ: [typy.PROSTE], stan: 1}, 
-        { nazwa: "Wiertarka", typ: [typy.ELEKTRYCZNE], stan: 1}, 
+    var narzedzia = [
+        { nazwa: "Młotek", typ: [typy.PROSTE], stan: 1},
+        { nazwa: "Wiertarka", typ: [typy.ELEKTRYCZNE], stan: 1},
         { nazwa: "Młot", typ: [typy.PNEUMATYCZNE], stan: 1},
         { nazwa: "Spawarka", typ: [typy.ELEKTRYCZNE], stan: 1},
         { nazwa: "Szlifierka", typ: [typy.ELEKTRYCZNE], stan: 1},
@@ -21,14 +21,23 @@ tools.module = (function(){
         { nazwa: "Pion", typ: [typy.POMIAROWE], stan: 1},
         { nazwa: "Wkrętak", typ: [typy.PROSTE], stan: 1},
         { nazwa: "Imadło", typ: [typy.POMOCNICZE], stan: 1}
-        ]
+        ];
 
     var myInterface = {
+        // Wyszukanie typu po indeksie
+        searchType: function (typeNo) {
+            for (typ in typy) {
+                if (typy[typ] == typeNo) {
+                    return typ;
+                }
+            }
+        },
+
         // Wyświetlanie listy i typów wszystkich narzędzi
         getToolsTypes: function (){
             console.log("\nLista narzędzi:");
             narzedzia.forEach(function(element, index) {
-                console.log("\t%s (kategoria: %s)",element.nazwa, element.typ);
+                console.log("\t%s (kategoria: %s)",element.nazwa, tools.module.searchType(element.typ));
             });
         },
 
@@ -38,48 +47,61 @@ tools.module = (function(){
             findTool = narzedzia.find(function(element){
                 return element.nazwa===toolName;
             });
-            //findIndex = narzedzia.indexOf(toolName);
-            console.log("\t" + findTool + " (kategoria: "+findTool+")"); 
+            console.log("\t" + findTool.nazwa + " (kategoria: "+ tools.module.searchType(findTool.typ) +")");
         },
-/*
+
         // Wyświetlenie stanu magazynowego narzędzia
         getToolStock: function(toolName) {
             console.log("\nStan magazynowy:");
-            findIndex = toolBox.narzedzia.indexOf(toolName);
-            console.log("\t" + toolBox.narzedzia[findIndex]+ ": "+ toolBox.stanNarzedzia[findIndex] + " szt.");
+            findTool = narzedzia.find(function(element){
+                return element.nazwa===toolName;
+            });
+            console.log("\t" + findTool.nazwa + ": "+ findTool.stan + " szt.");
         },
 
         // Kupno narzędzi
         buyTool: function(toolName) {
             console.log("\nZakupiono narzędzie:");
-            findIndex = toolBox.narzedzia.indexOf(toolName);
-            toolBox.stanNarzedzia[findIndex]++;
+            findTool = narzedzia.find(function(element){
+                return element.nazwa===toolName;
+            });
+            console.log("\t"+ findTool.nazwa);
+            findTool.stan++;
         },
 
         // Sprzedaż narzędzi
         sellTool: function(toolName) {
             console.log("\nSprzedano narzędzie:");
-            findIndex = toolBox.narzedzia.indexOf(toolName);
-            if (toolBox.stanNarzedzia[findIndex]>0) {toolBox.stanNarzedzia[findIndex]--};
+            findTool = narzedzia.find(function(element){
+                return element.nazwa===toolName;
+            });
+            console.log("\t"+ findTool.nazwa);
+            if (findTool.stan>0) {
+                findTool.stan--;
+            }
         },
 
         // Dodanie narzędzia do listy
         addTool: function(toolName,toolType) {
-            findNarzedzie = toolBox.narzedzia.indexOf(toolName);
-            if (findNarzedzie<0) {
-                findTyp = toolBox.typ.indexOf(toolType);
-                if (findTyp!=-1) {
-                    toolBox.narzedzia.push(toolName);
-                    toolBox.typNarzedzia.push(findTyp);
-                    toolBox.stanNarzedzia.push(0);
+            var newTool = {};
+            findTool = narzedzia.find(function(element){
+                return element.nazwa===toolName;
+            });
+            if (!findTool) {
+                findType = typy[toolType];
+                if (findType) {
+                    newTool.nazwa = toolName;
+                    newTool.typ = typy[toolType];
+                    newTool.stan = 0;
+                    narzedzia.push(newTool);
                     console.log("\nDodano narzędzie do listy.");
                 } else {
-                    console.log("\nPodano niewłaściwy typ narzędzia.");             
-                }  
+                    console.log("\nPodano niewłaściwy typ narzędzia.");
+                }
             } else {
-                console.log("\nNarzędzie istnieje już w bazie.");                          
-            }        
-        },*/
+                console.log("\nNarzędzie istnieje już w bazie.");
+            }
+        },
     };
     return myInterface;
 })();
@@ -87,13 +109,12 @@ tools.module = (function(){
 tools.module.getToolsTypes();
 
 tools.module.getToolType("Miara");
-/*tools.module.buyTool("Miara");
+tools.module.buyTool("Miara");
 tools.module.buyTool("Miara");
 tools.module.getToolStock("Miara");
 tools.module.sellTool("Miara");
 tools.module.getToolStock("Miara");
-
-tools.module.addTool("Ekierka","Pomiarowe");
+tools.module.addTool("Ekierka","POMIAROWE");
 tools.module.getToolsTypes();
-tools.module.addTool("Ekierka","Pomiarowe");
-tools.module.getToolsTypes();*/
+tools.module.addTool("Ekierka","POMIAROWE");
+tools.module.getToolsTypes();
