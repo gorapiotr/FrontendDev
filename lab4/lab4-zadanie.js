@@ -1,5 +1,7 @@
 /*
+    ==============================================================================
     Klasa obsługująca operacje na tabeli narzędzi i typów
+    ==============================================================================
 */
 class Tools {
     
@@ -116,30 +118,85 @@ class Tools {
 }
 
 /* 
+    ==============================================================================
     Klasa rozbudowująca funkcjonalność o funkcje do obsługi narzędzi elektrycznych
     dziedzicząca po klasie Tools
+    ==============================================================================
 */
 class ElectricTools extends Tools {
+    
+    // Rozszerzenie konstruktora przez dodanie dodatkowej właściwości power do obiektów
+    constructor() {
+        super();
+        this.narzedzia.forEach(element => { 
+            if (element.typ==this.typy.ELEKTRYCZNE) { element.power = false };
+        });
+    }
+
+    // Wyświetlanie listy i typów wszystkich narzędzi
+    // rozszerzenie o wyświetlanie czy włączono do prądu
+    getToolsTypes() {
+        let output;
+        this.output = '\nLista narzędzi:\n';
+        this.narzedzia.forEach(element => { 
+            this.output += ("\t"+ element.nazwa +" (kategoria: "+this.searchType(element.typ) +") ");
+            if (element.power!==undefined) {
+                (element.power===true&&element.power!==undefined)? this.output += "POWER ON\n" : this.output += "POWER OFF\n";
+            } else this.output += "\n";
+        });
+        return this.output;
+    }
     
     // Rozszerzamy o fukcję wyświetlania na ekranie
     print(input) {
         console.log(input);
     }
 
-    // Rozszerzamy funkcjonalność dla narzędzi elektrycznych
+    // Rozszerzamy funkcjonalność dla narzędzi elektrycznych o włączenie do prądu
     turnPowerOn(toolName) {
         let output="";
         if (this.getToolType(toolName,false)==this.typy.ELEKTRYCZNE) {
-            this.output = '\nPodłączamy narzędzie: '+ toolName +', do prądu:\n';          
+            this.output = ('\nPodłączamy narzędzie: '+ toolName +', do prądu.\n');
+            this.findTool = this.narzedzia.find(element => element.nazwa===toolName);
+            this.findTool.power = true;
         } else
         {
             this.output = '\nNarzędzia: '+ toolName +', nie można podłączyć do prądu.\n';                     
         }
         return this.output;
     }
+
+    // Rozszerzamy funkcjonalność dla narzędzi elektrycznych o wyłączanie z prądu
+    turnPowerOff(toolName) {
+        let output="";
+        if (this.getToolType(toolName,false)==this.typy.ELEKTRYCZNE) {
+            this.output = '\nWyłączamy narzędzie: '+ toolName +', z prądu.\n';
+            this.findTool = this.narzedzia.find(element => element.nazwa===toolName);
+            this.findTool.power = false;
+        } else
+        {
+            this.output = '\nNarzędzie: '+ toolName +', nie działa na prąd.\n';                     
+        }
+        return this.output;
+    }
+    
+    // Nadpisanie metody z wywołaniem dziedziczonej metody
+    // Dodano właściwość power obiektu dla urządzen elektrycznych
+    addTool(toolName,toolType) {
+        super.addTool(toolName,toolType);
+        this.findTool = this.narzedzia.find(element => element.nazwa===toolName);
+        if (this.findTool.typ==this.typy.ELEKTRYCZNE) {
+            this.findTool.power = false;           
+        }
+    }
 } 
 
-// tworzenie obiektu klasy ElectricTools i testowanie
+/* 
+    ==============================================================================
+    tworzenie obiektu klasy ElectricTools i testowanie
+    ==============================================================================
+*/
+
 var toolBox = new ElectricTools;
 toolBox.print(toolBox.getToolsTypes());
 toolBox.print(toolBox.getToolType("Miara"));
@@ -156,3 +213,9 @@ toolBox.print(toolBox.getToolsTypes());
 // testowanie rozszerzonej klasy
 toolBox.print(toolBox.turnPowerOn("Młotek"));
 toolBox.print(toolBox.turnPowerOn("Szlifierka"));
+toolBox.print(toolBox.addTool("Wyrzynarka","ELEKTRYCZNE"));
+toolBox.print(toolBox.getToolsTypes());
+toolBox.print(toolBox.turnPowerOn("Wyrzynarka"));
+toolBox.print(toolBox.getToolsTypes());
+toolBox.print(toolBox.turnPowerOff("Wyrzynarka"));
+toolBox.print(toolBox.getToolsTypes());
