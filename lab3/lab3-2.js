@@ -1,18 +1,20 @@
-/*  
+/*jslint white: true, single: true, this: true, for: true */
+/*global define */
+/*
     =========================================
     Klasa Tools
     =========================================
 */
 // Constructor
-function Tools (nazwa) {   
+"use strict";
+function Tools (nazwa) {
     this.typy = {
         PROSTE: 0,
         ELEKTRYCZNE: 1,
         PNEUMATYCZNE: 2,
         POMIAROWE: 3,
         POMOCNICZE: 4
-    };  
-    
+    };
     this.narzedzia = [
         { nazwa: "Młotek", typ: [this.typy.PROSTE], stan: 1},
         { nazwa: "Wiertarka", typ: [this.typy.ELEKTRYCZNE], stan: 1},
@@ -25,35 +27,33 @@ function Tools (nazwa) {
         { nazwa: "Wkrętak", typ: [this.typy.PROSTE], stan: 1},
         { nazwa: "Imadło", typ: [this.typy.POMOCNICZE], stan: 1}
         ];
-    
     this.nazwa = nazwa;
 }
 
 // Wyszukanie typu po indeksie
 Tools.prototype.searchType = function (typeNo) {
         this.wynik = "";
-        for (typ in this.typy) {
-            if (this.typy[typ] == typeNo) {
-                this.wynik = typ;
+        for (this.typ in this.typy) {
+            if (this.typy[this.typ] === typeNo) {
+                this.wynik = this.typ;
             }
-
         }
         return this.wynik;
-}
+};
 
 Tools.prototype.uzyj = function (toolName) {
-        findTool = this.narzedzia.find(function(element){
+        this.findTool = this.narzedzia.find(function(element){
             return element.nazwa===toolName;
-        }); 
-        return "Używam narzędzie: "+toolName + ", typu: " + Tools.prototype.searchType.call(this,findTool.typ);
-}
+        });
+        return "Używam narzędzie: "+toolName + ", typu: " + Tools.prototype.searchType.call(this,this.findTool.typ);
+};
 
 
 Tools.prototype.getNazwa = function () {
     return this.nazwa;
-}
+};
 
-/*  
+/*
     =========================================
     Klasa Elektryczne dziedziczy po Tools
     =========================================
@@ -70,9 +70,9 @@ Elektryczne.prototype.constructor = Elektryczne;
 // Rozszerzanie klasy elektryczne o nowa metode
 Elektryczne.prototype.jakUzywacElektryczne = function() {
     return "Najpierw musisz podłączyć do prądu.";
-}
+};
 
-/*  
+/*
     =========================================
     Klasa Hydrauliczne dziedziczy po Tools
     =========================================
@@ -89,9 +89,9 @@ Hydrauliczne.prototype.constructor = Hydrauliczne;
 // Rozszerzanie klasy hydrauliczne o nawa metode
 Hydrauliczne.prototype.jakUzywacHydrauliczne = function() {
     return "Najpierw musisz podłączyć do sprężarki.";
-}
+};
 
-/*  
+/*
     =========================================
     Tworzymy obiekty i testujemy
     =========================================
