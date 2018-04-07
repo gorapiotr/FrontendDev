@@ -27,6 +27,41 @@ var myObservable = Rx.Observable.range(0,10)
     });
 
 // Przykład 3:
-console.log('\nPrzykład 3:')
+//console.log('\nPrzykład 3:')
+//Rx.Observable.range(0,5)
 
+/*
+function randommove(){
+    var val= Math.floor(Math.random()* 4 +1)
+    switch(x) {
+        case 1:
+            return "góra";
+        case 2:
+            return "prawo";
+        case 3:
+            return "dół";
+        case 4:
+            return "lewo";
+        default:
+            break;
+    }
+
+}
+    var move = {
+        UP: 1,
+        RIGHT: 2,
+        DOWN: 3,
+        LEFT: 4
+    }
+
+
+Rx.Observable
+    .timer(0,1000)
+    .map(x => randommove())
+    .subscribe({
+        next: x => {
+        console.log(x)}
+    });
+*/
+    
 

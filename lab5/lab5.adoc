@@ -24,3 +24,15 @@ https://dzone.com/articles/marble-diagrams-rxjava-operators,
 . Interaktywne diagramy http://rxmarbles.com/
 . Obserwator (Obserwer, Subscriber) reaguje na zdarzenia (onNext, onEnter, onComplete) tematu (Subject, observable)
 . http://reactivex.io/documentation/operators/flatmap.html
+
+== Zadanie 1
+Wizualizacja wyniku WikiSearch
+Nazwa [link]
+Nazwa [link]
+Nazwa [link]
+
+== Zadanie 2
+Na ekranie przesuwa si kwadrat losowo co 1 sekunde w róznych kierunkach
+Przeduwamy klawiszami drugim kwadratem po ekranie, mozna sprowować myszka.
+Gdy kwadraty sie naloza to koniec gry.
+Uzywać Rx do obslugi - strumienie (keyup, mouse)
