@@ -1,0 +1,26 @@
+== Programowanie synchroniczne
+var file = io.readfile('...')
+
+tutaj następuje zablokowanie
+
+var value = lib.count(...)
+
+io.readFileAsynch('file',function count(){})
+
+== Programowanie reaktywne
+io.readfile(wynik).then(http.get(wynik).then(io.write)
+
+operacje wykonują się asynchronicznie w "workerze", 
+program działa dalej
+
+[1,2,3].foreach(...)
+	.map(...)
+	.filter(...)
+
+
+. observer pattern
+. Marble diagrams
+https://dzone.com/articles/marble-diagrams-rxjava-operators, 
+. Interaktywne diagramy http://rxmarbles.com/
+. Obserwator (Obserwer, Subscriber) reaguje na zdarzenia (onNext, onEnter, onComplete) tematu (Subject, observable)
+. http://reactivex.io/documentation/operators/flatmap.html
