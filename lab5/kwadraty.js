@@ -42,7 +42,7 @@ class Square {
 // Klasa potomna osobnika - wróg
 class Enemy extends Square {
     randomMove() {
-        var val= Math.floor(Math.random()* 4 +1)
+        let val= Math.floor(Math.random()* 4 +1)
         switch(val) {
             case 1:
                 this.moveUp(this.step);
@@ -89,32 +89,58 @@ class Player extends Square {
 // Główna klasa gry
 class Game {
     constructor () {
-        var redSquare = new Enemy(100,100,10);
-        var greenSquare = new Player(150,100,10);
-        var licznik = 0;
+        let redSquare = new Enemy(100,100,10);
+        let greenSquare = new Player(150,100,10);
+        let licznik = 0;
         
         // Obsługa gracza
-        var key = Rx.Observable.fromEvent(document, 'keyup')
+        let key = Rx.Observable.fromEvent(document, 'keyup')
             .map(key => greenSquare.move(key.key))
-            .do(key => {
-                if(greenSquare.collision(redSquare)){ licznik += 1;};
-            })
             .subscribe({
                 next: key => {
                     document.getElementById("player").style.left = greenSquare.getX();
                     document.getElementById("player").style.top = greenSquare.getY();
-                    $('#wynik').text(licznik);
                 }
             });
+
+        let mouse = Rx.Observable.fromEvent(document, 'mousedown')
+            .subscribe({
+            next: x => {
+                if (x.clientX<greenSquare.getX()&&x.clientY>greenSquare.getY()&&x.clientY<greenSquare.getY()+50) {
+                    greenSquare.move("ArrowLeft"); 
+                }
+                if (x.clientX>greenSquare.getX()+50&&x.clientY>greenSquare.getY()&&x.clientY<greenSquare.getY()+50) {
+                    greenSquare.move("ArrowRight"); 
+                }
+                if (x.clientY<greenSquare.getY()&&x.clientX>greenSquare.getX()&&x.clientX<greenSquare.getX()+50) {
+                    greenSquare.move("ArrowUp"); 
+                }
+                if (x.clientY>greenSquare.getY()+50&&x.clientX>greenSquare.getX()&&x.clientX<greenSquare.getX()+50) {
+                    greenSquare.move("ArrowDown"); 
+                }
+                console.log(x.clientX+" "+greenSquare.getX());                  
+                document.getElementById("player").style.left = greenSquare.getX();
+                document.getElementById("player").style.top = greenSquare.getY();
+            }
+        });
         
         // Obsługa wroga
-        var enemy = Rx.Observable
+        let enemy = Rx.Observable
             .timer(0,500)
             .map(x => redSquare.randomMove())
             .subscribe({
                 next: x => {
                     document.getElementById("enemy").style.left = redSquare.getX();
                     document.getElementById("enemy").style.top = redSquare.getY();
+                }
+            });
+
+        // Obsługa kolizji
+        let boom = Rx.Observable.interval(200)
+            .subscribe({
+                next: x => {
+                    if(greenSquare.collision(redSquare)){ licznik += 1;};
+                    $('#wynik').text(licznik);
                 }
             });
     }
