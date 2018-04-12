@@ -3,8 +3,28 @@
         <head>
             <meta charset="UTF-8">
             <title></title>
+            <style>
+                html {
+                    background-color: #eee;
+                }
+                .search-block {
+                    display: block;
+                    box-shadow: 1px 1px 5px 0px rgba(50, 50, 50, 0.26);
+                    border-radius: 2px;
+                    background-color: #fff;
+                    min-height: 30px;
+                    padding: 5px;
+                    width: 60%;
+                    font-size: 12px;
+                    margin: 5px;
+                }
+                .description {
+                    margin-left: 20px;
+                }
+            </style>
         </head>
         <body>
+            <label>Szukaj:</label>
             <input id="q"> <br/>
             <div id="results"></div>
             <script src="./node_modules/jquery/dist/jquery.min.js"></script>
