@@ -6,9 +6,10 @@
 
 // Klasa podstawowa osobnika
 class Square {
-    constructor(startX, startY, step) {
+    constructor(startX, startY, size, step) {
         this.pos_x = startX;
         this.pos_y = startY;
+        this.size = size;
         this.step = step;
         this.max_x = document.body.offsetWidth;
         this.max_y = document.body.offsetHeight;
@@ -20,6 +21,10 @@ class Square {
 
     getY() {
         return this.pos_y;      
+    }
+
+    getSize() {
+        return this.size;      
     }
 
     moveLeft(step) {
@@ -41,6 +46,15 @@ class Square {
 
 // Klasa potomna osobnika - wróg
 class Enemy extends Square {
+    constructor (startX, startY, size, step) {
+        super(startX, startY, size, step);        
+        this.name = "enemy";
+        document.getElementById(this.name).style.left = this.getX();
+        document.getElementById(this.name).style.top = this.getY();
+        document.getElementById(this.name).style.width = this.getSize();
+        document.getElementById(this.name).style.height = this.getSize();
+    }
+
     randomMove() {
         let val= Math.floor(Math.random()* 4 +1)
         switch(val) {
@@ -62,6 +76,15 @@ class Enemy extends Square {
 
 // Klasa potomna osobnika - gracz
 class Player extends Square {
+    constructor (startX, startY, size, step) {
+        super(startX, startY, size, step);
+        this.name = "player";
+        document.getElementById(this.name).style.left = this.getX();
+        document.getElementById(this.name).style.top = this.getY();
+        document.getElementById(this.name).style.width = this.getSize();
+        document.getElementById(this.name).style.height = this.getSize();
+    }
+
     move(key) {
         switch(key) {
             case "ArrowUp":
@@ -79,6 +102,21 @@ class Player extends Square {
         }
     }
 
+    moveMouse(mouse) {
+        if (mouse.clientX<this.getX()&&mouse.clientY>this.getY()&&mouse.clientY<this.getY()+this.getSize()) {
+            this.moveLeft(this.step);
+        }
+        if (mouse.clientX>this.getX()+this.getSize()&&mouse.clientY>this.getY()&&mouse.clientY<this.getY()+this.getSize()) {
+            this.moveRight(this.step);
+        }
+        if (mouse.clientY<this.getY()&&mouse.clientX>this.getX()&&mouse.clientX<this.getX()+this.getSize()) {
+            this.moveUp(this.step);
+        }
+        if (mouse.clientY>this.getY()+this.getSize()&&mouse.clientX>this.getX()&&mouse.clientX<this.getX()+this.getSize()) {
+            this.moveDown(this.step); 
+        }
+    }
+
     collision(Square) {
         if (Square.getX()==this.getX() && Square.getY()==this.getY()) {
             return true;
@@ -89,8 +127,8 @@ class Player extends Square {
 // Główna klasa gry
 class Game {
     constructor () {
-        let redSquare = new Enemy(100,100,10);
-        let greenSquare = new Player(150,100,10);
+        var redSquare = new Enemy(100,100,100,10);
+        var greenSquare = new Player(150,100,100,10);
         let licznik = 0;
         
         // Obsługa gracza
@@ -104,20 +142,9 @@ class Game {
             });
 
         let mouse = Rx.Observable.fromEvent(document, 'mousedown')
+            .do(mouse => greenSquare.moveMouse(mouse))
             .subscribe({
             next: x => {
-                if (x.clientX<greenSquare.getX()&&x.clientY>greenSquare.getY()&&x.clientY<greenSquare.getY()+50) {
-                    greenSquare.move("ArrowLeft"); 
-                }
-                if (x.clientX>greenSquare.getX()+50&&x.clientY>greenSquare.getY()&&x.clientY<greenSquare.getY()+50) {
-                    greenSquare.move("ArrowRight"); 
-                }
-                if (x.clientY<greenSquare.getY()&&x.clientX>greenSquare.getX()&&x.clientX<greenSquare.getX()+50) {
-                    greenSquare.move("ArrowUp"); 
-                }
-                if (x.clientY>greenSquare.getY()+50&&x.clientX>greenSquare.getX()&&x.clientX<greenSquare.getX()+50) {
-                    greenSquare.move("ArrowDown"); 
-                }
                 console.log(x.clientX+" "+greenSquare.getX());                  
                 document.getElementById("player").style.left = greenSquare.getX();
                 document.getElementById("player").style.top = greenSquare.getY();
@@ -137,9 +164,9 @@ class Game {
 
         // Obsługa kolizji
         let boom = Rx.Observable.interval(200)
+            .map(x => {if(greenSquare.collision(redSquare)){ licznik += 1;}})
             .subscribe({
                 next: x => {
-                    if(greenSquare.collision(redSquare)){ licznik += 1;};
                     $('#wynik').text(licznik);
                 }
             });
