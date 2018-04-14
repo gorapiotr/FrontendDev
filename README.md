@@ -26,3 +26,8 @@ Informatyka II st. zaoczna 2 sem.
 [Zadanie1 HTML](https://github.com/wdunia/FrontendDev/blob/master/lab5/index.html) (Wyszukiwarka Wikipedia w RxJS)
 * [Zadanie2 JS](https://github.com/wdunia/FrontendDev/blob/master/lab5/kwadraty.js) |
 [Zadanie2 HTML](https://github.com/wdunia/FrontendDev/blob/master/lab5/kwadraty.html) (Gra Kwadraty w RxJS)
+
+## Laboratorium 6
+* [main.js](https://github.com/wdunia/FrontendDev/blob/master/lab6/src/main.js) [main.ts](https://github.com/wdunia/FrontendDev/blob/master/lab6/src/main.ts)|
+[Opis](https://github.com/wdunia/FrontendDev/blob/master/lab6/lab6.adoc)
+

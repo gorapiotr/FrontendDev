@@ -1,0 +1,32 @@
+== Type Script Angular / React
+
+Angular (duży framework),
+React (lekka biblioteka)
+
+. Angular 1.0 używał ES5
+. Angular 2.0 (Google) początkowo używano AtScript (zrezygnowano ze wstecznej kompatybilności), ostatecznie Google dogadało się z Microsoft, który rozwijał TypeScript i który był gotowy. Obecnie można używać ES5, ES6 i TypeScript.
+
+.Dokumentacja
+. http://www.typescriptlang.org/docs/handbook/basic-types.html
+. http://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html
+
+.Instalacja
+. npm-init (package.json)
+. npm install -g babel-init (instalacja babel)
+. https://www.typescriptlang.org/samples/index.html
+. https://github.com/Microsoft/TypeScript-Babel-Starter#readme
+
+.Struktura projektu
+. hello.TS
+. package.json (node, npm)
+. tsconfig.json (TypeScript)
+. babelrc (Babel)
+. src (źródłowe)
+. lib (pliki wynikowe)
+
+.Transpilacja
+tsc lib\main.ts
+
+== Zadanie
+Swoją klasę z lab4 (ES6) przerobić na TypeScript. Dopisać mini API (CRUD, interfejsy, dziedziczenie)
+Projekt podzielony na pliki (używamy export przed interface i class)
